@@ -11,11 +11,10 @@ import { CustomersService } from '../customers.service';
   styleUrls: ['./customers-edit.component.scss']
 })
 export class CustomersEditComponent implements OnInit, OnDestroy {
-
   customerForm = this.formBuilder.group({
     id: [],
-    name: [ '', Validators.required ],
-    city: [ '', Validators.required ]
+    name: ['', Validators.required],
+    city: ['', Validators.required]
   });
 
   customer: Customer;
@@ -23,24 +22,22 @@ export class CustomersEditComponent implements OnInit, OnDestroy {
   sub: Subscription;
 
   constructor(
-      private customersService: CustomersService,
-      private router: Router,
-      private formBuilder: FormBuilder,
-      private route: ActivatedRoute) {
-        this.loading$ = this.customersService.loading$;
-      }
-
-
+    private customersService: CustomersService,
+    private router: Router,
+    private formBuilder: FormBuilder,
+    private route: ActivatedRoute
+  ) {
+    this.loading$ = this.customersService.loading$;
+  }
 
   ngOnInit() {
-      const id = +this.route.snapshot.paramMap.get('id');
-      this.sub = this.customersService.getByKey(id).subscribe(customer => {
-        if (customer) {
-          this.customer = customer;
-          this.customerForm.patchValue(this.customer);
-        }
-
-      })
+    const id = +this.route.snapshot.paramMap.get('id');
+    this.sub = this.customersService.getByKey(id).subscribe(customer => {
+      if (customer) {
+        this.customer = customer;
+        this.customerForm.patchValue(this.customer);
+      }
+    });
   }
 
   submit() {
@@ -56,11 +53,11 @@ export class CustomersEditComponent implements OnInit, OnDestroy {
   }
 
   delete(customer: Customer) {
-      this.customersService.delete(customer);
+    this.customersService.delete(customer);
   }
 
   update(customer: Customer) {
-      this.customersService.update(customer);
+    this.customersService.update(customer);
   }
 
   ngOnDestroy() {
@@ -68,5 +65,4 @@ export class CustomersEditComponent implements OnInit, OnDestroy {
       this.sub.unsubscribe();
     }
   }
-
 }

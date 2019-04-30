@@ -5,14 +5,14 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../../environments/environment';
 
 import { DefaultDataServiceConfig, NgrxDataModule } from 'ngrx-data';
-
+import { entityConfig } from './entity-metadata';
 
 const apiRoot = environment.apiUrlBase + '/';
 const defaultDataServiceConfig: DefaultDataServiceConfig = {
   root: apiRoot,
   entityHttpResourceUrls: {
     Customer: { entityResourceUrl: apiRoot + 'customers/', collectionResourceUrl: apiRoot + 'customers/' },
-    Order: { entityResourceUrl: apiRoot + 'orders/', collectionResourceUrl: apiRoot + 'orders/' },
+    Order: { entityResourceUrl: apiRoot + 'orders/', collectionResourceUrl: apiRoot + 'orders/' }
   }
 };
 
@@ -20,9 +20,9 @@ const defaultDataServiceConfig: DefaultDataServiceConfig = {
   imports: [
     StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
-    NgrxDataModule.forRoot(),
+    NgrxDataModule.forRoot(entityConfig),
     environment.production ? [] : StoreDevtoolsModule.instrument()
   ],
-  providers: [ { provide: DefaultDataServiceConfig, useValue: defaultDataServiceConfig } ]
+  providers: [{ provide: DefaultDataServiceConfig, useValue: defaultDataServiceConfig }]
 })
 export class AppStoreModule {}
